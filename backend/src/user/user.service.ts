@@ -13,7 +13,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly userRepo: Repository<User>,
   ) {}
   public async create(createUserDto: CreateUserDto) {
     try {
@@ -24,9 +24,9 @@ export class UserService {
           'El usuario con el email dado ya se encuentra registrado',
         );
 
-      const newUser = this.userRepository.create(createUserDto);
+      const newUser = this.userRepo.create(createUserDto);
 
-      return await this.userRepository.save(newUser);
+      return await this.userRepo.save(newUser);
     } catch (error) {
       if (error instanceof ConflictException) {
         throw error;
@@ -39,7 +39,7 @@ export class UserService {
   }
 
   public async findOneByEmail(email: string) {
-    return await this.userRepository.findOne({
+    return await this.userRepo.findOne({
       where: { email },
     });
   }
