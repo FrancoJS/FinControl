@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { QueryFailedError, Repository } from 'typeorm';
 import { Transaction } from './entities/transaction.entity';
@@ -31,9 +27,7 @@ export class TransactionService {
         }
       }
       console.log(error);
-      throw new InternalServerErrorException(
-        'Error al conectar con la base de datos',
-      );
+      throw new InternalServerErrorException('Error al conectar con la base de datos');
     }
   }
 

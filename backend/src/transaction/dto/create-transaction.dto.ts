@@ -1,11 +1,5 @@
 import { Type } from 'class-transformer';
-import {
-  IsDate,
-  IsInt,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsDate, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateTransactionDto {
   @IsInt()

@@ -1,13 +1,6 @@
+import { Category } from 'src/category/entities/category.entity';
 import { User } from 'src/user/entities/user.entity';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class Transaction {
@@ -38,10 +31,21 @@ export class Transaction {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column()
+  @Column({
+    nullable: false,
+  })
   userId: number;
 
   @ManyToOne(() => User, (user) => user.transactions)
   @JoinColumn({ name: 'userId' })
   user: User;
+
+  @Column({
+    nullable: false,
+  })
+  categoryId: number;
+
+  @ManyToOne(() => Category, (category) => category.transactions)
+  @JoinColumn({ name: 'categoryId' })
+  category: Category;
 }

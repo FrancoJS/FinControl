@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 // import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
@@ -19,10 +15,7 @@ export class UserService {
     try {
       const user = await this.findOneByEmail(createUserDto.email);
 
-      if (user)
-        throw new ConflictException(
-          'El usuario con el email dado ya se encuentra registrado',
-        );
+      if (user) throw new ConflictException('El usuario con el email dado ya se encuentra registrado');
 
       const newUser = this.userRepo.create(createUserDto);
 
