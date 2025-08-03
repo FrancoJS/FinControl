@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TransactionModule } from './transaction/transaction.module';
 import { CategoryModule } from './category/category.module';
 import { AccountModule } from './account/account.module';
+import { SavingGoalModule } from './saving_goal/saving_goal.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AccountModule } from './account/account.module';
     TransactionModule,
     CategoryModule,
     AccountModule,
+    SavingGoalModule,
   ],
   controllers: [AppController],
   providers: [AppService],
