@@ -7,7 +7,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TransactionModule } from './transaction/transaction.module';
 import { CategoryModule } from './category/category.module';
 import { AccountModule } from './account/account.module';
-import { SavingGoalModule } from './saving_goal/saving_goal.module';
+import { SavingGoalModule } from './saving-goal/saving-goal.module';
+import { RecTransactionModule } from './rec-transaction/rec-transaction.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { SavingGoalModule } from './saving_goal/saving_goal.module';
     CategoryModule,
     AccountModule,
     SavingGoalModule,
+    RecTransactionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

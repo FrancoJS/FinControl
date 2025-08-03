@@ -1,4 +1,5 @@
 import { Category } from 'src/category/entities/category.entity';
+import { TransactionType } from 'src/common/enums/transaction-type.enum';
 import { User } from 'src/user/entities/user.entity';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
@@ -25,14 +26,26 @@ export class Transaction {
   })
   date: Date;
 
-  @CreateDateColumn()
+  @Column({
+    type: 'enum',
+    enum: TransactionType,
+    nullable: false,
+  })
+  type: TransactionType;
+
+  @CreateDateColumn({
+    name: 'created_at',
+  })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
   updatedAt: Date;
 
   @Column({
     nullable: false,
+    name: 'user_id',
   })
   userId: number;
 
@@ -42,10 +55,11 @@ export class Transaction {
 
   @Column({
     nullable: false,
+    name: 'category_id',
   })
   categoryId: number;
 
   @ManyToOne(() => Category, (category) => category.transactions)
-  @JoinColumn({ name: 'categoryId' })
+  @JoinColumn({ name: 'category_id' })
   category: Category;
 }

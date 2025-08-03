@@ -15,12 +15,14 @@ export class SavingGoal {
   @Column({
     type: 'int',
     nullable: false,
+    name: 'target_amount',
   })
   targetAmount: number;
 
   @Column({
     type: 'int',
     nullable: false,
+    name: 'saved_amount',
   })
   savedAmount: number;
 
@@ -30,10 +32,10 @@ export class SavingGoal {
   })
   deadline: Date;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, name: 'account_id' })
   accountId: number;
 
   @OneToMany(() => Account, (account) => account.savingGoals)
-  @JoinColumn({ name: 'accountId' })
+  @JoinColumn({ name: 'account_id' })
   account: Account;
 }

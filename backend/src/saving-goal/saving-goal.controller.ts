@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { SavingGoalService } from './saving_goal.service';
+import { SavingGoalService } from './saving-goal.service';
 import { CreateSavingGoalDto } from './dto/create-saving_goal.dto';
 import { UpdateSavingGoalDto } from './dto/update-saving_goal.dto';
 

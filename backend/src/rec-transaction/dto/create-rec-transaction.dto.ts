@@ -1,26 +1,32 @@
 import { Type } from 'class-transformer';
 import { IsDate, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Frecuency } from 'src/common/enums/frequency.enum';
 import { TransactionType } from 'src/common/enums/transaction-type.enum';
 
-export class CreateTransactionDto {
+export class CreateRecExpenseDto {
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
   @IsInt()
   @IsNotEmpty()
   amount: number;
 
-  @IsString()
-  @IsOptional()
-  description?: string;
-
-  @IsDate()
-  @IsOptional()
-  @Type(() => Date)
-  date?: Date;
+  @IsEnum(Frecuency)
+  @IsNotEmpty()
+  frecuency: Frecuency;
 
   @IsEnum(TransactionType)
   @IsNotEmpty()
   type: TransactionType;
 
-  @IsInt()
+  @IsDate()
+  @IsOptional()
+  @Type(() => Date)
+  lastExecutionDate?: Date;
+
+  @IsDate()
   @IsNotEmpty()
-  userId: number;
+  @Type(() => Date)
+  nextExecutionDate: Date;
 }

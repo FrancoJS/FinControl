@@ -19,6 +19,7 @@ export class User {
     type: 'varchar',
     length: 30,
     nullable: false,
+    name: 'last_name',
   })
   lastName: string;
 
