@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { Account } from 'src/account/entities/account.entity';
 import { Transaction } from 'src/transaction/entities/transaction.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
@@ -38,4 +39,7 @@ export class User {
 
   @OneToMany(() => Transaction, (transaction) => transaction.user)
   transactions: Transaction[];
+
+  @OneToMany(() => Account, (account) => account.user)
+  accounts: Account[];
 }
