@@ -1,6 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsDate, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { TransactionType } from 'src/common/enums/transaction-type.enum';
+import { IsDate, IsInt, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class CreateTransactionDto {
   @IsInt()
@@ -16,11 +15,11 @@ export class CreateTransactionDto {
   @Type(() => Date)
   date?: Date;
 
-  @IsEnum(TransactionType)
+  @IsUUID()
   @IsNotEmpty()
-  type: TransactionType;
+  userId: string;
 
   @IsInt()
   @IsNotEmpty()
-  userId: number;
+  categoryId: number;
 }

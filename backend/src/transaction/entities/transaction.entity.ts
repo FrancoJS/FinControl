@@ -5,8 +5,8 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGenerat
 
 @Entity()
 export class Transaction {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({
     type: 'int',
@@ -47,10 +47,10 @@ export class Transaction {
     nullable: false,
     name: 'user_id',
   })
-  userId: number;
+  userId: string;
 
   @ManyToOne(() => User, (user) => user.transactions)
-  @JoinColumn({ name: 'userId' })
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @Column({

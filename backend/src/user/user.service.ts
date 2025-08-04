@@ -1,9 +1,10 @@
-import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 // import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { HandleDbErrors } from 'src/common/decorators/handle-db-errors.decorator';
 
 @Injectable()
 export class UserService {
@@ -11,24 +12,11 @@ export class UserService {
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
   ) {}
+
+  @HandleDbErrors()
   public async create(createUserDto: CreateUserDto) {
-    try {
-      const user = await this.findOneByEmail(createUserDto.email);
-
-      if (user) throw new ConflictException('El usuario con el email dado ya se encuentra registrado');
-
-      const newUser = this.userRepo.create(createUserDto);
-
-      return await this.userRepo.save(newUser);
-    } catch (error) {
-      if (error instanceof ConflictException) {
-        throw error;
-      }
-
-      throw new InternalServerErrorException('Error Interno', {
-        description: 'Error en conectar a la base de datos',
-      });
-    }
+    const newUser = this.userRepo.create(createUserDto);
+    return await this.userRepo.save(newUser);
   }
 
   public async findOneByEmail(email: string) {

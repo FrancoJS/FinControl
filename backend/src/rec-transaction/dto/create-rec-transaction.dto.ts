@@ -29,4 +29,8 @@ export class CreateRecExpenseDto {
   @IsNotEmpty()
   @Type(() => Date)
   nextExecutionDate: Date;
+
+  @IsInt()
+  @IsOptional()
+  categoryId?: number;
 }

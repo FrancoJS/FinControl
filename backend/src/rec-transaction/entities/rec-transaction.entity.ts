@@ -1,4 +1,5 @@
 import { Account } from 'src/account/entities/account.entity';
+import { Category } from 'src/category/entities/category.entity';
 import { Frecuency } from 'src/common/enums/frequency.enum';
 import { TransactionType } from 'src/common/enums/transaction-type.enum';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
@@ -57,4 +58,14 @@ export class RecTransaction {
   @ManyToOne(() => Account, (account) => account.recTransaction)
   @JoinColumn({ name: 'account_id' })
   account: Account;
+
+  @Column({
+    nullable: false,
+    name: 'category_id',
+  })
+  categoryId: number;
+
+  @ManyToOne(() => Category, (category) => category.recTransactions)
+  @JoinColumn({ name: 'category_id' })
+  category: Category;
 }
