@@ -37,16 +37,31 @@ export class TransactionService {
     return await this.transactionRepo.save(transaction);
   }
 
-  async findAll() {
-    return `This action returns all transaction`;
+  @HandleDbErrors()
+  public async findAll(userId: string) {
+    const transactions = await this.transactionRepo.find({
+      where: { userId },
+    });
+
+    if (transactions.length <= 0) {
+      throw new NotFoundException('El usuario no tiene transacciones creadas');
+    }
+
+    return transactions;
   }
 
   findOne(id: number) {
     return `This action returns a #${id} transaction`;
   }
 
-  update(id: number, updateTransactionDto: UpdateTransactionDto) {
-    return `This action updates a #${id} transaction`;
+  @HandleDbErrors()
+  public async update(transactionId: string, updateTransactionDto: UpdateTransactionDto) {
+    const result = await this.transactionRepo.update(transactionId, updateTransactionDto);
+
+    if (result.affected === 0) {
+      throw new NotFoundException('Transaccion no encontrada ');
+    }
+    return result;
   }
 
   remove(id: number) {

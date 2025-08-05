@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, BadRequestException } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
@@ -18,9 +18,21 @@ export class TransactionController {
     };
   }
 
-  @Get()
-  findAll() {
-    return this.transactionService.findAll();
+  @Get(':userId')
+  async findAllByUserId(
+    @Param(
+      'userId',
+      new ParseUUIDPipe({ exceptionFactory: () => new BadRequestException('El ID del usuario debe ser un UUID válido') }),
+    )
+    userId: string,
+  ) {
+    const transactions = await this.transactionService.findAll(userId);
+
+    return {
+      ok: true,
+      message: 'Transacciones obtenidas exitosamente',
+      transactions,
+    };
   }
 
   @Get(':id')
@@ -28,9 +40,9 @@ export class TransactionController {
     return this.transactionService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTransactionDto: UpdateTransactionDto) {
-    return this.transactionService.update(+id, updateTransactionDto);
+  @Patch(':transactionId')
+  update(@Param('transactionId', ParseUUIDPipe) transactionId: string, @Body() updateTransactionDto: UpdateTransactionDto) {
+    return this.transactionService.update(transactionId, updateTransactionDto);
   }
 
   @Delete(':id')
