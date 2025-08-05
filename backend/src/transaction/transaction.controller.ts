@@ -41,8 +41,17 @@ export class TransactionController {
   }
 
   @Patch(':transactionId')
-  update(@Param('transactionId', ParseUUIDPipe) transactionId: string, @Body() updateTransactionDto: UpdateTransactionDto) {
-    return this.transactionService.update(transactionId, updateTransactionDto);
+  async update(
+    @Param('transactionId', ParseUUIDPipe) transactionId: string,
+    @Body() updateTransactionDto: UpdateTransactionDto,
+  ) {
+    const updatedTransaction = await this.transactionService.update(transactionId, updateTransactionDto);
+
+    return {
+      ok: true,
+      message: 'Transacción actualizada exitosamente',
+      transaction: updatedTransaction,
+    };
   }
 
   @Delete(':id')

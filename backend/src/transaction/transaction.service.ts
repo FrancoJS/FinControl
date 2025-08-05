@@ -43,10 +43,6 @@ export class TransactionService {
       where: { userId },
     });
 
-    if (transactions.length <= 0) {
-      throw new NotFoundException('El usuario no tiene transacciones creadas');
-    }
-
     return transactions;
   }
 
@@ -56,12 +52,13 @@ export class TransactionService {
 
   @HandleDbErrors()
   public async update(transactionId: string, updateTransactionDto: UpdateTransactionDto) {
-    const result = await this.transactionRepo.update(transactionId, updateTransactionDto);
+    const transaction = await this.transactionRepo.preload({ id: transactionId, ...updateTransactionDto });
 
-    if (result.affected === 0) {
-      throw new NotFoundException('Transaccion no encontrada ');
+    if (!transaction) {
+      throw new NotFoundException('Transaccion no encontrada');
     }
-    return result;
+
+    return await this.transactionRepo.save(transaction);
   }
 
   remove(id: number) {
