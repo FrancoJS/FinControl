@@ -1,10 +1,10 @@
 import { Transaction } from 'src/transaction/entities/transaction.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class SavingGoal {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({
     type: 'varchar',
@@ -21,7 +21,7 @@ export class SavingGoal {
 
   @Column({
     type: 'int',
-    nullable: false,
+    nullable: true,
     name: 'saved_amount',
   })
   savedAmount: number;
@@ -32,9 +32,9 @@ export class SavingGoal {
   })
   deadline: Date;
 
-  @ManyToOne(() => Transaction, (transaction) => transaction.toSavingGoal)
+  @OneToMany(() => Transaction, (transaction) => transaction.toSavingGoal)
   incomingtransactions: Transaction[];
 
-  @ManyToOne(() => Transaction, (transaction) => transaction.fromSavingGoal)
+  @OneToMany(() => Transaction, (transaction) => transaction.fromSavingGoal)
   outgoingtransactions: Transaction[];
 }

@@ -20,8 +20,20 @@ export class CreateTransactionDto {
   userId: string;
 
   @IsUUID()
-  @IsNotEmpty()
-  accountId: string;
+  @IsOptional()
+  toAccountId?: string;
+
+  @IsUUID()
+  @IsOptional()
+  fromAccountId?: string;
+
+  @IsUUID()
+  @IsOptional()
+  toSavingGoalId?: string;
+
+  @IsUUID()
+  @IsOptional()
+  fromSavingGoalId?: string;
 
   @IsInt()
   @IsNotEmpty()

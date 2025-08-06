@@ -26,13 +26,17 @@ export class TransactionService {
       throw new NotFoundException('Categoria no encontrada');
     }
 
+    const { toAccountId, fromAccountId, toSavingGoalId, fromSavingGoalId, ...rest } = createTransactionDto;
+
     const transactionType = category?.type;
     const transaction = this.transactionRepo.create({
-      ...createTransactionDto,
+      ...rest,
+      toAccount: toAccountId ? { id: toAccountId } : undefined,
+      fromAccount: fromAccountId ? { id: fromAccountId } : undefined,
+      toSavingGoal: toSavingGoalId ? { id: toSavingGoalId } : undefined,
+      fromSavingGoal: fromAccountId ? { id: fromSavingGoalId } : undefined,
       type: transactionType,
     });
-
-    console.log(transaction);
 
     return await this.transactionRepo.save(transaction);
   }
@@ -54,16 +58,16 @@ export class TransactionService {
     return `This action returns a #${id} transaction`;
   }
 
-  @HandleDbErrors()
-  public async update(transactionId: string, updateTransactionDto: UpdateTransactionDto) {
-    const transaction = await this.transactionRepo.preload({ id: transactionId, ...updateTransactionDto });
+  // @HandleDbErrors()
+  // public async update(transactionId: string, updateTransactionDto: UpdateTransactionDto) {
+  //   const transaction = await this.transactionRepo.preload({ id: transactionId, ...updateTransactionDto });
 
-    if (!transaction) {
-      throw new NotFoundException('Transaccion no encontrada');
-    }
+  //   if (!transaction) {
+  //     throw new NotFoundException('Transaccion no encontrada');
+  //   }
 
-    return await this.transactionRepo.save(transaction);
-  }
+  //   return await this.transactionRepo.save(transaction);
+  // }
 
   @HandleDbErrors()
   public async softDelete(transactionId: string) {

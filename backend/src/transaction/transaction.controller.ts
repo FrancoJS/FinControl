@@ -40,19 +40,19 @@ export class TransactionController {
     return this.transactionService.findOne(+id);
   }
 
-  @Patch(':transactionId')
-  async update(
-    @Param('transactionId', ParseUUIDPipe) transactionId: string,
-    @Body() updateTransactionDto: UpdateTransactionDto,
-  ) {
-    const updatedTransaction = await this.transactionService.update(transactionId, updateTransactionDto);
+  // @Patch(':transactionId')
+  // async update(
+  //   @Param('transactionId', ParseUUIDPipe) transactionId: string,
+  //   @Body() updateTransactionDto: UpdateTransactionDto,
+  // ) {
+  //   const updatedTransaction = await this.transactionService.update(transactionId, updateTransactionDto);
 
-    return {
-      ok: true,
-      message: 'Transacción actualizada exitosamente',
-      transaction: updatedTransaction,
-    };
-  }
+  //   return {
+  //     ok: true,
+  //     message: 'Transacción actualizada exitosamente',
+  //     transaction: updatedTransaction,
+  //   };
+  // }
 
   @Delete(':transactionId')
   async softDelete(@Param('transactionId', ParseUUIDPipe) transactionId: string) {

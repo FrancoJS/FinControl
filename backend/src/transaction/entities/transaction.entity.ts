@@ -76,11 +76,11 @@ export class Transaction {
   fromAccount?: Account;
 
   @ManyToOne(() => SavingGoal, (savingGoal) => savingGoal.incomingtransactions)
-  @JoinColumn({ name: 'to_account_id' })
+  @JoinColumn({ name: 'to_saving_goal_id' })
   toSavingGoal?: SavingGoal;
 
   @ManyToOne(() => SavingGoal, (savingGoal) => savingGoal.outgoingtransactions)
-  @JoinColumn({ name: 'to_account_id' })
+  @JoinColumn({ name: 'from_saving_goal_id' })
   fromSavingGoal?: SavingGoal;
 
   @Column({
