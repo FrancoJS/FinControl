@@ -36,7 +36,7 @@ export class AccountService {
         date: new Date(),
         type: TransactionType.INITIAL_BALANCE,
         user: { id: userId },
-        account: newAccount,
+        toAccount: newAccount,
         category: { id: 1 },
       });
 

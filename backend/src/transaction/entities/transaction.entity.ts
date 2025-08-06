@@ -1,6 +1,7 @@
 import { Account } from 'src/account/entities/account.entity';
 import { Category } from 'src/category/entities/category.entity';
 import { TransactionType } from 'src/common/enums/transaction-type.enum';
+import { SavingGoal } from 'src/saving-goal/entities/saving-goal.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,
@@ -66,15 +67,21 @@ export class Transaction {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @Column({
-    nullable: false,
-    name: 'account_id',
-  })
-  accountId: string;
+  @ManyToOne(() => Account, (account) => account.incomingTransactions)
+  @JoinColumn({ name: 'to_account_id' })
+  toAccount?: Account;
 
-  @ManyToOne(() => Account, (account) => account.transactions)
-  @JoinColumn({ name: 'account_id' })
-  account: Account;
+  @ManyToOne(() => Account, (account) => account.outgoingTransactions)
+  @JoinColumn({ name: 'from_account_id' })
+  fromAccount?: Account;
+
+  @ManyToOne(() => SavingGoal, (savingGoal) => savingGoal.incomingtransactions)
+  @JoinColumn({ name: 'to_account_id' })
+  toSavingGoal?: SavingGoal;
+
+  @ManyToOne(() => SavingGoal, (savingGoal) => savingGoal.outgoingtransactions)
+  @JoinColumn({ name: 'to_account_id' })
+  fromSavingGoal?: SavingGoal;
 
   @Column({
     nullable: false,

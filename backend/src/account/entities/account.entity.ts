@@ -1,6 +1,5 @@
 import { Exclude } from 'class-transformer';
 import { RecTransaction } from 'src/rec-transaction/entities/rec-transaction.entity';
-import { SavingGoal } from 'src/saving-goal/entities/saving-goal.entity';
 import { Transaction } from 'src/transaction/entities/transaction.entity';
 import { User } from 'src/user/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
@@ -35,11 +34,11 @@ export class Account {
   @Exclude()
   user: User;
 
-  @OneToMany(() => Transaction, (transaction) => transaction.account)
-  transactions: Transaction[];
+  @OneToMany(() => Transaction, (transaction) => transaction.toAccount)
+  incomingTransactions: Transaction[];
 
-  @OneToMany(() => SavingGoal, (savingGoal) => savingGoal.account)
-  savingGoals: SavingGoal[];
+  @OneToMany(() => Transaction, (transaction) => transaction.fromAccount)
+  outgoingTransactions: Transaction[];
 
   @OneToMany(() => RecTransaction, (recTransaction) => recTransaction.account)
   recTransaction: RecTransaction[];

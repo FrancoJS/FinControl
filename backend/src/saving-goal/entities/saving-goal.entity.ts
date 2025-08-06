@@ -1,5 +1,5 @@
-import { Account } from 'src/account/entities/account.entity';
-import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Transaction } from 'src/transaction/entities/transaction.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class SavingGoal {
@@ -32,10 +32,9 @@ export class SavingGoal {
   })
   deadline: Date;
 
-  @Column({ nullable: false, name: 'account_id' })
-  accountId: number;
+  @ManyToOne(() => Transaction, (transaction) => transaction.toSavingGoal)
+  incomingtransactions: Transaction[];
 
-  @OneToMany(() => Account, (account) => account.savingGoals)
-  @JoinColumn({ name: 'account_id' })
-  account: Account;
+  @ManyToOne(() => Transaction, (transaction) => transaction.fromSavingGoal)
+  outgoingtransactions: Transaction[];
 }

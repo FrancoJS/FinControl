@@ -11,12 +11,8 @@ export class CreateSavingGoalDto {
   targetAmount: number;
 
   @IsInt()
-  @IsNotEmpty()
-  savedAmount: number;
-
-  @IsInt()
-  @IsNotEmpty()
-  accountId: number;
+  @IsOptional()
+  savedAmount?: number;
 
   @IsDate()
   @IsOptional()
