@@ -54,8 +54,15 @@ export class TransactionController {
     };
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.transactionService.remove(+id);
+  @Delete(':transactionId')
+  async softDelete(@Param('transactionId', ParseUUIDPipe) transactionId: string) {
+    const isDeleted = await this.transactionService.softDelete(transactionId);
+
+    if (isDeleted) {
+      return {
+        ok: true,
+        message: 'Transacción eliminada exitosamente',
+      };
+    }
   }
 }

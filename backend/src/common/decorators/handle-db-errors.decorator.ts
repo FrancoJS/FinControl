@@ -23,7 +23,7 @@ export function HandleDbErrors(): MethodDecorator {
         if (error instanceof QueryFailedError) {
           const driverError = error.driverError as { code: string; detail: string };
 
-          const match = driverError.detail.match(/\((.*?)\)=\((.*?)\)/);
+          const match = driverError.detail?.match(/\((.*?)\)=\((.*?)\)/);
           const field = match?.[1];
           const value = match?.[2];
 
@@ -48,6 +48,11 @@ export function HandleDbErrors(): MethodDecorator {
                 description: driverError.detail,
               });
 
+            case '22001': // violacion de constraint check
+              throw new BadRequestException('Formato de dato incorrecto', {
+                description: 'Violacion de constraint',
+              });
+
             default:
               throw new InternalServerErrorException('Error en la base de datos', {
                 description: 'Ocurrio un error al interactuar con la base de datos',
@@ -58,6 +63,8 @@ export function HandleDbErrors(): MethodDecorator {
         if (error instanceof HttpException) {
           throw error;
         }
+
+        console.error(error);
         throw new ServiceUnavailableException('No se pudo conectar a la base de datos');
       }
     };

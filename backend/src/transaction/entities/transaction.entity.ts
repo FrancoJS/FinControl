@@ -1,7 +1,17 @@
+import { Account } from 'src/account/entities/account.entity';
 import { Category } from 'src/category/entities/category.entity';
 import { TransactionType } from 'src/common/enums/transaction-type.enum';
 import { User } from 'src/user/entities/user.entity';
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Transaction {
@@ -43,6 +53,9 @@ export class Transaction {
   })
   updatedAt: Date;
 
+  @DeleteDateColumn()
+  deletedAt: Date;
+
   @Column({
     nullable: false,
     name: 'user_id',
@@ -52,6 +65,16 @@ export class Transaction {
   @ManyToOne(() => User, (user) => user.transactions)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @Column({
+    nullable: false,
+    name: 'account_id',
+  })
+  accountId: string;
+
+  @ManyToOne(() => Account, (account) => account.transactions)
+  @JoinColumn({ name: 'account_id' })
+  account: Account;
 
   @Column({
     nullable: false,

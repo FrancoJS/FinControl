@@ -19,6 +19,10 @@ export class CreateTransactionDto {
   @IsNotEmpty()
   userId: string;
 
+  @IsUUID()
+  @IsNotEmpty()
+  accountId: string;
+
   @IsInt()
   @IsNotEmpty()
   categoryId: number;

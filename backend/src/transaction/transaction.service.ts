@@ -43,6 +43,10 @@ export class TransactionService {
       where: { userId },
     });
 
+    if (transactions.length <= 0) {
+      throw new NotFoundException('Transacciones no encontradas');
+    }
+
     return transactions;
   }
 
@@ -61,7 +65,14 @@ export class TransactionService {
     return await this.transactionRepo.save(transaction);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} transaction`;
+  @HandleDbErrors()
+  public async softDelete(transactionId: string) {
+    const result = await this.transactionRepo.softDelete(transactionId);
+
+    if (result.affected === 0) {
+      throw new NotFoundException('Transaccion no encontrada');
+    }
+
+    return true;
   }
 }
