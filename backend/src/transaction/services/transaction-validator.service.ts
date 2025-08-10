@@ -11,7 +11,7 @@ interface ValidateTransactionOptions {
 
 @Injectable()
 export class TransactionValidatorService {
-  static validate({ type, fromAccountId, toAccountId, fromSavingGoalId, toSavingGoalId }: ValidateTransactionOptions) {
+  public validate({ type, fromAccountId, toAccountId, fromSavingGoalId, toSavingGoalId }: ValidateTransactionOptions) {
     const hasFrom = !!fromAccountId || !!fromSavingGoalId;
     const hasTo = !!toAccountId || !!toSavingGoalId;
 
@@ -25,6 +25,7 @@ export class TransactionValidatorService {
             'El destino debe ser únicamente una cuenta (toAccount) en las transacciones de ingreso',
           );
         }
+
         break;
 
       case TransactionType.EXPENSE:

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { Repository } from 'typeorm';
 import { Account } from './entities/account.entity';
@@ -52,9 +52,16 @@ export class AccountService {
   //   return `This action returns all account`;
   // }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} account`;
-  // }
+  @HandleDbErrors()
+  public async findOne(id: string) {
+    const account = await this.accountRepository.findOneBy({ id });
+
+    if (!account) {
+      throw new NotFoundException(`La cuenta con id ${id} no existe`);
+    }
+
+    return account;
+  }
 
   // update(id: number, updateAccountDto: UpdateAccountDto) {
   //   return `This action updates a #${id} account`;

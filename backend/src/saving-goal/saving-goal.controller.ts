@@ -12,23 +12,23 @@ export class SavingGoalController {
     return this.savingGoalService.create(createSavingGoalDto);
   }
 
-  @Get()
-  findAll() {
-    return this.savingGoalService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.savingGoalService.findAll();
+  // }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.savingGoalService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.savingGoalService.findOne(+id);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSavingGoalDto: UpdateSavingGoalDto) {
-    return this.savingGoalService.update(+id, updateSavingGoalDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateSavingGoalDto: UpdateSavingGoalDto) {
+  //   return this.savingGoalService.update(+id, updateSavingGoalDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.savingGoalService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.savingGoalService.remove(+id);
+  // }
 }

@@ -10,10 +10,6 @@ export class CreateSavingGoalDto {
   @IsNotEmpty()
   targetAmount: number;
 
-  @IsInt()
-  @IsOptional()
-  savedAmount?: number;
-
   @IsDate()
   @IsOptional()
   @Type(() => Date)
