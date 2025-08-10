@@ -27,7 +27,7 @@ export class SavingGoalService {
   //   return `This action returns all savingGoal`;
   // }
 
-  public async findOne(id: string) {
+  public async findOneById(id: string) {
     const savingGoal = await this.savingGoalRepo.findOneBy({ id });
 
     if (!savingGoal) {

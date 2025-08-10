@@ -40,24 +40,14 @@ export class TransactionService {
 
     this.transactionValidator.validate({ type, fromAccountId, toAccountId, fromSavingGoalId, toSavingGoalId });
 
-    const toAccount = toAccountId ? await this.accountService.findOne(toAccountId) : null;
-    const fromAccount = fromAccountId ? await this.accountService.findOne(fromAccountId) : null;
-    const toSavingGoal = toSavingGoalId ? await this.savingGoalService.findOne(toSavingGoalId) : null;
-    const fromSavingGoal = fromSavingGoalId ? await this.savingGoalService.findOne(fromSavingGoalId) : null;
+    const toAccount = toAccountId ? await this.accountService.findOneById(toAccountId) : null;
+    const fromAccount = fromAccountId ? await this.accountService.findOneById(fromAccountId) : null;
+    const toSavingGoal = toSavingGoalId ? await this.savingGoalService.findOneById(toSavingGoalId) : null;
+    const fromSavingGoal = fromSavingGoalId ? await this.savingGoalService.findOneById(fromSavingGoalId) : null;
 
-    const transaction = await this.dataSource.transaction(async (manager) => {
-      await this.balancesUpdater.updateBalances(manager, {
-        type,
-        toAccount,
-        fromAccount,
-        toSavingGoal,
-        fromSavingGoal,
-        amount,
-      });
-
+    const result = await this.dataSource.transaction(async (manager) => {
       const transactionRepo = manager.getRepository(Transaction);
-
-      const transaction = this.transactionRepo.create({
+      const transaction = transactionRepo.create({
         ...rest,
         toAccount: toAccountId ? { id: toAccountId } : undefined,
         fromAccount: fromAccountId ? { id: fromAccountId } : undefined,
@@ -67,10 +57,21 @@ export class TransactionService {
         amount,
       });
 
-      return await transactionRepo.save(transaction);
+      const newTransaction = await transactionRepo.save(transaction);
+
+      await this.balancesUpdater.updateBalances(manager, {
+        type,
+        toAccount,
+        fromAccount,
+        toSavingGoal,
+        fromSavingGoal,
+        amount,
+      });
+
+      return newTransaction;
     });
 
-    return transaction;
+    return result;
   }
 
   @HandleDbErrors()
